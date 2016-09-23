@@ -17,43 +17,43 @@ class Factory {
   }
 
   /**
-   * @param string $sourceIdentifier
+   * @param string $resourceIdentifier
    * @return \RestExample\iController
-   * @throws \RestExample\Model\Exception\SourceManagerNotImplemented
+   * @throws \RestExample\Model\Exception\ResourceManagerNotImplemented
    * @throws \RestExample\Model\Exception\DataMapperNotImplemented
    */
-  public function createBySourceIdentifier($sourceIdentifier) {
-    return new \RestExample\Controller($this->createSourceManagerBySourceIdentifier($sourceIdentifier),
-            $this->createDataMapperBySourceIdentifier($sourceIdentifier));
+  public function createByResourceIdentifier($resourceIdentifier) {
+    return new \RestExample\Controller($this->createResourceManagerByResourceIdentifier($resourceIdentifier),
+            $this->createDataMapperByResourceIdentifier($resourceIdentifier));
   }
 
   /**
-   * @todo Detach to Source Manager factory and inject it in constructor.
+   * @todo Detach to Resource Manager factory and inject it in constructor.
    * 
-   * @param string $sourceIdentifier
+   * @param string $resourceIdentifier
    * @return \RestExample\Controller\sourceManagerClass
-   * @throws \RestExample\Model\Exception\SourceManagerNotImplemented
+   * @throws \RestExample\Model\Exception\ResourceManagerNotImplemented
    */
-  private function createSourceManagerBySourceIdentifier($sourceIdentifier) {
-    $sourceManagerClass = '\\RestExample\\Model\\Source\\' . \ucfirst($sourceIdentifier) . 'Manager';
-    if (!\class_exists($sourceManagerClass)) {
-      throw new \RestExample\Model\Exception\SourceManagerNotImplemented("Source manager for source $sourceIdentifier not implemented.");
+  private function createResourceManagerByResourceIdentifier($resourceIdentifier) {
+    $resourceManagerClass = '\\RestExample\\Model\\Resource\\' . \ucfirst($resourceIdentifier) . 'Manager';
+    if (!\class_exists($resourceManagerClass)) {
+      throw new \RestExample\Model\Exception\ResourceManagerNotImplemented("Resource manager for resource $resourceIdentifier not implemented.");
     }
 
-    return new $sourceManagerClass($this->databaseConnection);
+    return new $resourceManagerClass($this->databaseConnection);
   }
 
   /**
    * @todo Detach to Data Mapper factory and inject it in constructor.
    *
-   * @param string $sourceIdentifier
+   * @param string $resourceIdentifier
    * @return \RestExample\Controller\dataMapperClass
    * @throws \RestExample\Model\Exception\DataMapperNotImplemented
    */
-  private function createDataMapperBySourceIdentifier($sourceIdentifier) {
-    $dataMapperClass = '\\RestExample\\Model\\Mapper\\Json\\' . \ucfirst($sourceIdentifier);
+  private function createDataMapperByResourceIdentifier($resourceIdentifier) {
+    $dataMapperClass = '\\RestExample\\Model\\Mapper\\Json\\' . \ucfirst($resourceIdentifier);
     if (!\class_exists($dataMapperClass)) {
-      throw new \RestExample\Model\Exception\DataMapperNotImplemented("Data mapper for source $sourceIdentifier not implemented.");
+      throw new \RestExample\Model\Exception\DataMapperNotImplemented("Data mapper for resource $resourceIdentifier not implemented.");
     }
 
     return new $dataMapperClass();

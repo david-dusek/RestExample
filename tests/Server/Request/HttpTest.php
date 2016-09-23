@@ -7,44 +7,44 @@ class HttpTest extends \PHPUnit_Framework_TestCase {
   /**
    * @test
    */
-  public function getSourceNameIfIsSet() {
-    $sourceName = 'test';
-    $request = new \RestExample\Server\Request\Http("/$sourceName/123", \RestExample\Server\iRequest::METHOD_GET, '');
-    $this->assertEquals($sourceName, $request->getSourceName());
+  public function getResourceNameIfIsSet() {
+    $resourceName = 'test';
+    $request = new \RestExample\Server\Request\Http("/$resourceName/123", \RestExample\Server\iRequest::METHOD_GET, '');
+    $this->assertEquals($resourceName, $request->getResourceName());
   }
 
   /**
    * @test
    */
-  public function getSourceNameIfIsEmpty() {
+  public function getResourceNameIfIsEmpty() {
     $request = new \RestExample\Server\Request\Http("/", \RestExample\Server\iRequest::METHOD_GET, '');
-    $this->assertEquals('', $request->getSourceName());
+    $this->assertEquals('', $request->getResourceName());
   }
 
   /**
    * @test
    */
-  public function getSourceIdentifierIfIsSet() {
-    $sourceIdentifier = 123;
-    $request = new \RestExample\Server\Request\Http("/test/$sourceIdentifier", \RestExample\Server\iRequest::METHOD_GET,
+  public function getResourceIdentifierIfIsSet() {
+    $resourceIdentifier = 123;
+    $request = new \RestExample\Server\Request\Http("/test/$resourceIdentifier", \RestExample\Server\iRequest::METHOD_GET,
             '');
-    $this->assertEquals($sourceIdentifier, $request->getSourceIdentifier());
+    $this->assertEquals($resourceIdentifier, $request->getResourceIdentifier());
   }
 
   /**
    * @test
    */
-  public function getSourceIdentifierIfIsNotSet() {
+  public function getResourceIdentifierIfIsNotSet() {
     $request = new \RestExample\Server\Request\Http("/test", \RestExample\Server\iRequest::METHOD_GET, '');
-    $this->assertNull($request->getSourceIdentifier());
+    $this->assertNull($request->getResourceIdentifier());
   }
 
   /**
    * @test
    */
-  public function getSourceIdentifierIfIsNotNumeric() {
+  public function getResourceIdentifierIfIsNotNumeric() {
     $request = new \RestExample\Server\Request\Http("/test/foo", \RestExample\Server\iRequest::METHOD_GET, '');
-    $this->assertNull($request->getSourceIdentifier());
+    $this->assertNull($request->getResourceIdentifier());
   }
 
 }

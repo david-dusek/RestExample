@@ -1,8 +1,8 @@
 <?php
 
-namespace RestExample\Model\Source;
+namespace RestExample\Model\Resource;
 
-interface iUser extends \RestExample\Model\iSource {
+interface iUser extends \RestExample\Model\iResource {
 
   /**
    * @return string

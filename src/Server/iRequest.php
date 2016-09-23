@@ -27,12 +27,12 @@ interface iRequest {
   /**
    * @return string|null
    */
-  public function getSourceName();
+  public function getResourceName();
 
   /**
    * @return int|null
    */
-  public function getSourceIdentifier();
+  public function getResourceIdentifier();
 
   /**
    * @return string

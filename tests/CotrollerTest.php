@@ -8,44 +8,44 @@ class CotrollerTest extends \PHPUnit_Framework_TestCase {
    * @test
    */
   public function processGetRequest() {
-    $sourceIdentifier = 1;
-    $sourceRowData = '';
-    $controller = $this->createControllerMock($sourceIdentifier, $sourceRowData, 'read');
-    $controller->processRequest($this->createRequestStub(\RestExample\Server\iRequest::METHOD_GET, $sourceIdentifier,
-                    $sourceRowData));
+    $resourceIdentifier = 1;
+    $resourceRowData = '';
+    $controller = $this->createControllerMock($resourceIdentifier, $resourceRowData, 'read');
+    $controller->processRequest($this->createRequestStub(\RestExample\Server\iRequest::METHOD_GET, $resourceIdentifier,
+                    $resourceRowData));
   }
 
   /**
    * @test
    */
   public function processPostRequest() {
-    $sourceIdentifier = null;
-    $sourceRowData = 'foo';
-    $controller = $this->createControllerMock($sourceIdentifier, $sourceRowData, 'create');
-    $controller->processRequest($this->createRequestStub(\RestExample\Server\iRequest::METHOD_POST, $sourceIdentifier,
-                    $sourceRowData));
+    $resourceIdentifier = null;
+    $resourceRowData = 'foo';
+    $controller = $this->createControllerMock($resourceIdentifier, $resourceRowData, 'create');
+    $controller->processRequest($this->createRequestStub(\RestExample\Server\iRequest::METHOD_POST, $resourceIdentifier,
+                    $resourceRowData));
   }
 
   /**
    * @test
    */
   public function processPutRequest() {
-    $sourceIdentifier = 1;
-    $sourceRowData = 'foo';
-    $controller = $this->createControllerMock($sourceIdentifier, $sourceRowData, 'update');
-    $controller->processRequest($this->createRequestStub(\RestExample\Server\iRequest::METHOD_PUT, $sourceIdentifier,
-                    $sourceRowData));
+    $resourceIdentifier = 1;
+    $resourceRowData = 'foo';
+    $controller = $this->createControllerMock($resourceIdentifier, $resourceRowData, 'update');
+    $controller->processRequest($this->createRequestStub(\RestExample\Server\iRequest::METHOD_PUT, $resourceIdentifier,
+                    $resourceRowData));
   }
 
   /**
    * @test
    */
   public function processDeleteRequest() {
-    $sourceIdentifier = 1;
-    $sourceRowData = '';
-    $controller = $this->createControllerMock($sourceIdentifier, $sourceRowData, 'delete');
-    $controller->processRequest($this->createRequestStub(\RestExample\Server\iRequest::METHOD_DELETE, $sourceIdentifier,
-                    $sourceRowData));
+    $resourceIdentifier = 1;
+    $resourceRowData = '';
+    $controller = $this->createControllerMock($resourceIdentifier, $resourceRowData, 'delete');
+    $controller->processRequest($this->createRequestStub(\RestExample\Server\iRequest::METHOD_DELETE,
+                    $resourceIdentifier, $resourceRowData));
   }
 
   /**
@@ -53,46 +53,46 @@ class CotrollerTest extends \PHPUnit_Framework_TestCase {
    * @expectedException \RestExample\Controller\Exception\UnsupportedMethod
    */
   public function processNotExistingMethodRequest() {
-    $sourceManagerFake = $this->getMockBuilder(\RestExample\Model\iCrud::class)->getMock();
+    $resourceManagerFake = $this->getMockBuilder(\RestExample\Model\iCrud::class)->getMock();
     $dataMapperFake = $this->getMockBuilder(\RestExample\Model\iMapper::class)->getMock();
-    $controller = new \RestExample\Controller($sourceManagerFake, $dataMapperFake);
+    $controller = new \RestExample\Controller($resourceManagerFake, $dataMapperFake);
     $controller->processRequest($this->createRequestStub('FOO', 1, ''));
   }
 
   /**
-   * @param int $sourceIdentifier
-   * @param string $sourceRowData
-   * @param string $sourceManagerRequiredMethodName
+   * @param int $resourceIdentifier
+   * @param string $resourceRowData
+   * @param string $resourceManagerRequiredMethodName
    * @return \RestExample\Controller
    */
-  private function createControllerMock($sourceIdentifier, $sourceRowData, $sourceManagerRequiredMethodName) {
-    $sourceStub = $this->createSourceStub($sourceIdentifier);
+  private function createControllerMock($resourceIdentifier, $resourceRowData, $resourceManagerRequiredMethodName) {
+    $resourceStub = $this->createResourceStub($resourceIdentifier);
 
-    $sourceManagerMock = $this->getMockBuilder(\RestExample\Model\iCrud::class)->getMock();
-    $sourceManagerMock->expects($this->once())
-            ->method($sourceManagerRequiredMethodName)
-            ->with($sourceStub);
+    $resourceManagerMock = $this->getMockBuilder(\RestExample\Model\iCrud::class)->getMock();
+    $resourceManagerMock->expects($this->once())
+            ->method($resourceManagerRequiredMethodName)
+            ->with($resourceStub);
 
     $dataMapperMock = $this->getMockBuilder(\RestExample\Model\iMapper::class)->getMock();
     $dataMapperMock->expects($this->once())
-            ->method('dataToSource')
-            ->with($this->equalTo($sourceIdentifier), $this->equalTo($sourceRowData))
-            ->willReturn($sourceStub);
+            ->method('dataToResource')
+            ->with($this->equalTo($resourceIdentifier), $this->equalTo($resourceRowData))
+            ->willReturn($resourceStub);
 
-    return new \RestExample\Controller($sourceManagerMock, $dataMapperMock);
+    return new \RestExample\Controller($resourceManagerMock, $dataMapperMock);
   }
 
   /**
    * @param string $method
-   * @param int $sourceIdentifier
+   * @param int $resourceIdentifier
    * @param string $rowData
    * @return \RestExample\Server\iRequest
    */
-  private function createRequestStub($method, $sourceIdentifier, $rowData) {
+  private function createRequestStub($method, $resourceIdentifier, $rowData) {
     $stub = $this->getMockBuilder(\RestExample\Server\iRequest::class)->getMock();
     $stub->method('getMethod')->willReturn($method);
-    $stub->method('getSourceName')->willReturn('foo');
-    $stub->method('getSourceIdentifier')->willReturn($sourceIdentifier);
+    $stub->method('getResourceName')->willReturn('foo');
+    $stub->method('getResourceIdentifier')->willReturn($resourceIdentifier);
     $stub->method('getRawData')->willReturn($rowData);
 
     return $stub;
@@ -100,10 +100,10 @@ class CotrollerTest extends \PHPUnit_Framework_TestCase {
 
   /**
    * @param int|null $identifier
-   * @return \RestExample\Model\iSource
+   * @return \RestExample\Model\iResource
    */
-  private function createSourceStub($identifier = null) {
-    $stub = $this->getMockBuilder(\RestExample\Model\iSource::class)->getMock();
+  private function createResourceStub($identifier = null) {
+    $stub = $this->getMockBuilder(\RestExample\Model\iResource::class)->getMock();
     $stub->method('getIdentifier')->willReturn($identifier);
 
     return $stub;

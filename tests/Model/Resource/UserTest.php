@@ -1,6 +1,6 @@
 <?php
 
-namespace RestExample\Tests\Model\Source;
+namespace RestExample\Tests\Model\Resource;
 
 class UserTest extends \PHPUnit_Framework_TestCase {
 
@@ -8,7 +8,7 @@ class UserTest extends \PHPUnit_Framework_TestCase {
    * @test
    */
   public function setIdentifierByConstructor() {
-    $user = new \RestExample\Model\Source\User(1);
+    $user = new \RestExample\Model\Resource\User(1);
     $this->assertSame(1, $user->getIdentifier());
   }
 
@@ -16,7 +16,7 @@ class UserTest extends \PHPUnit_Framework_TestCase {
    * @test
    */
   public function setStringIdentifierByConstructor() {
-    $user = new \RestExample\Model\Source\User('1');
+    $user = new \RestExample\Model\Resource\User('1');
     $this->assertSame(1, $user->getIdentifier());
   }
 
@@ -24,7 +24,7 @@ class UserTest extends \PHPUnit_Framework_TestCase {
    * @test
    */
   public function setIdentifierBySetter() {
-    $user = new \RestExample\Model\Source\User();
+    $user = new \RestExample\Model\Resource\User();
     $user->setIdentifer(1);
     $this->assertSame(1, $user->getIdentifier());
   }
@@ -33,8 +33,8 @@ class UserTest extends \PHPUnit_Framework_TestCase {
    * @test
    * @expectedException \RestExample\Model\Exception\Immutable
    */
-  public function changeSourceIdentifier() {
-    $user = new \RestExample\Model\Source\User(1);
+  public function changeResourceIdentifier() {
+    $user = new \RestExample\Model\Resource\User(1);
     $user->setIdentifer(2);
   }
 

@@ -7,13 +7,13 @@ interface iMapper {
   /**
    * @param int|null $identifier
    * @param string $data
-   * @return \RestExample\Model\iSource
+   * @return \RestExample\Model\iResource
    */
-  public function dataToSource($identifier = null, $data = '');
+  public function dataToResource($identifier = null, $data = '');
 
   /**
-   * @param \RestExample\Model\iSource $source
+   * @param \RestExample\Model\iResource $resource
    * @return string
    */
-  public function sourceToData(\RestExample\Model\iSource $source);
+  public function resourceToData(\RestExample\Model\iResource $resource);
 }

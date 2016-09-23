@@ -1,8 +1,8 @@
 <?php
 
-namespace RestExample\Model\Source;
+namespace RestExample\Model\Resource;
 
-class User implements \RestExample\Model\Source\iUser {
+class User implements \RestExample\Model\Resource\iUser {
 
   /**
    * @var int
@@ -57,7 +57,7 @@ class User implements \RestExample\Model\Source\iUser {
     }
 
     if (isset($this->identifier)) {
-      throw new \RestExample\Model\Exception\Immutable('Is not possible change source identifier');
+      throw new \RestExample\Model\Exception\Immutable('Is not possible change resource identifier');
     }
 
     $this->identifier = (int) $identifier;

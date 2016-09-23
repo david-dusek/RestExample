@@ -7,7 +7,7 @@ class Controller implements \RestExample\iController {
   /**
    * @var \RestExample\Model\iCrud
    */
-  private $sourceManager;
+  private $resourceManager;
 
   /**
    * @var \RestExample\Model\iMapper
@@ -15,11 +15,11 @@ class Controller implements \RestExample\iController {
   private $dataMapper;
 
   /**
-   * @param \RestExample\Model\iCrud $sourceManager
+   * @param \RestExample\Model\iCrud $resourceManager
    * @param \RestExample\Model\iMapper $dataMapper
    */
-  public function __construct(\RestExample\Model\iCrud $sourceManager, \RestExample\Model\iMapper $dataMapper) {
-    $this->sourceManager = $sourceManager;
+  public function __construct(\RestExample\Model\iCrud $resourceManager, \RestExample\Model\iMapper $dataMapper) {
+    $this->resourceManager = $resourceManager;
     $this->dataMapper = $dataMapper;
   }
 
@@ -28,45 +28,45 @@ class Controller implements \RestExample\iController {
    */
   public function processRequest(\RestExample\Server\iRequest $request) {
     $request->getMethod();
-    $source = $this->dataMapper->dataToSource($request->getSourceIdentifier(), $request->getRawData());
+    $resource = $this->dataMapper->dataToResource($request->getResourceIdentifier(), $request->getRawData());
 
     $methodName = 'process' . \ucfirst(\strtolower($request->getMethod()));
     if (!\method_exists($this, $methodName)) {
       throw new \RestExample\Controller\Exception\UnsupportedMethod("Method {$request->getMethod()} is not supported.");
     }
-    $this->{$methodName}($source);
+    $this->{$methodName}($resource);
   }
 
   /**
-   * @param \RestExample\Model\iSource $source
-   * @return \RestExample\Model\iSource
+   * @param \RestExample\Model\iResource $resource
+   * @return \RestExample\Model\iResource
    */
-  protected function processGet(\RestExample\Model\iSource $source) {
-    return $this->sourceManager->read($source);
+  protected function processGet(\RestExample\Model\iResource $resource) {
+    return $this->resourceManager->read($resource);
   }
 
   /**
-   * @param \RestExample\Model\iSource $source
-   * @return \RestExample\Model\iSource
+   * @param \RestExample\Model\iResource $resource
+   * @return \RestExample\Model\iResource
    */
-  protected function processPost(\RestExample\Model\iSource $source) {
-    return $this->sourceManager->create($source);
+  protected function processPost(\RestExample\Model\iResource $resource) {
+    return $this->resourceManager->create($resource);
   }
 
   /**
-   * @param \RestExample\Model\iSource $source
-   * @return \RestExample\Model\iSource
+   * @param \RestExample\Model\iResource $resource
+   * @return \RestExample\Model\iResource
    */
-  protected function processPut(\RestExample\Model\iSource $source) {
-    return $this->sourceManager->update($source);
+  protected function processPut(\RestExample\Model\iResource $resource) {
+    return $this->resourceManager->update($resource);
   }
 
   /**
-   * @param \RestExample\Model\iSource $source
+   * @param \RestExample\Model\iResource $resource
    * @return boolean
    */
-  protected function processDelete(\RestExample\Model\iSource $source) {
-    return $this->sourceManager->delete($source);
+  protected function processDelete(\RestExample\Model\iResource $resource) {
+    return $this->resourceManager->delete($resource);
   }
 
 }

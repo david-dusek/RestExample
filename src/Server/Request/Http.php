@@ -41,7 +41,7 @@ class Http implements \RestExample\Server\iRequest {
   /**
    * @return string|null
    */
-  public function getSourceName() {
+  public function getResourceName() {
     $uriParts = $this->getUriParts();
 
     return !empty($uriParts) ? (string) \reset($uriParts) : null;
@@ -50,7 +50,7 @@ class Http implements \RestExample\Server\iRequest {
   /**
    * @return int|null
    */
-  public function getSourceIdentifier() {
+  public function getResourceIdentifier() {
     $uriParts = $this->getUriParts();
 
     return \count($uriParts) > 1 && \is_numeric($uriParts[1]) ? (int) $uriParts[1] : null;

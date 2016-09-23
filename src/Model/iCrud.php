@@ -5,26 +5,26 @@ namespace RestExample\Model;
 interface iCrud {
 
   /**
-   * @param \RestExample\Model\iSource $source
-   * @return \RestExample\Model\iSource
+   * @param \RestExample\Model\iResource $resource
+   * @return \RestExample\Model\iResource
    */
-  public function create(\RestExample\Model\iSource $source);
+  public function create(\RestExample\Model\iResource $resource);
 
   /**
-   * @param \RestExample\Model\iSource $source
-   * @return \RestExample\Model\iSource
+   * @param \RestExample\Model\iResource $resource
+   * @return \RestExample\Model\iResource
    */
-  public function read(\RestExample\Model\iSource $source);
+  public function read(\RestExample\Model\iResource $resource);
 
   /**
-   * @param \RestExample\Model\iSource $source
-   * @return \RestExample\Model\iSource
+   * @param \RestExample\Model\iResource $resource
+   * @return \RestExample\Model\iResource
    */
-  public function update(\RestExample\Model\iSource $source);
+  public function update(\RestExample\Model\iResource $resource);
 
   /**
-   * @param \RestExample\Model\iSource $source
+   * @param \RestExample\Model\iResource $resource
    * @return boolean
    */
-  public function delete(\RestExample\Model\iSource $source);
+  public function delete(\RestExample\Model\iResource $resource);
 }

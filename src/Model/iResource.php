@@ -2,7 +2,7 @@
 
 namespace RestExample\Model;
 
-interface iSource {
+interface iResource {
 
   /**
    * @todo Other identifier type and compound key support.
