@@ -67,14 +67,15 @@ class User implements \RestExample\Model\Source\iUser {
    * @param string $firstname
    */
   public function setFirstname($firstname) {
-    $this->firstname = (string) $firstname;
+    $this->firstname = empty($firstname) ? null : (string) $firstname;
   }
 
   /**
    * @param string $surname
    */
   public function setSurname($surname) {
-    $this->surname = (string) $surname;
+    $this->surname = empty($surname) ? null : (string) $surname;
+    ;
   }
 
 }
