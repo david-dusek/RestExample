@@ -1,0 +1,8 @@
+{
+  "database":
+  {
+    "dsn":"test",
+    "username":"username",
+    "password":"password"
+  }
+}
