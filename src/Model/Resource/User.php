@@ -20,6 +20,11 @@ class User implements \RestExample\Model\Resource\iUser {
   private $surname;
 
   /**
+   * @var boolean
+   */
+  private $isEmptyObject;
+
+  /**
    * @param int $identifier
    */
   public function __construct($identifier = null) {
@@ -31,6 +36,13 @@ class User implements \RestExample\Model\Resource\iUser {
    */
   public function getIdentifier() {
     return $this->identifier;
+  }
+
+  /**
+   * @return boolean
+   */
+  public function isEmptyObject() {
+    return $this->isEmptyObject;
   }
 
   /**
@@ -64,6 +76,13 @@ class User implements \RestExample\Model\Resource\iUser {
   }
 
   /**
+   * @param boolean $isEmptyObject
+   */
+  public function setEmptyObject($isEmptyObject) {
+    $this->isEmptyObject = $isEmptyObject;
+  }
+
+  /**
    * @param string $firstname
    */
   public function setFirstname($firstname) {
@@ -75,7 +94,16 @@ class User implements \RestExample\Model\Resource\iUser {
    */
   public function setSurname($surname) {
     $this->surname = empty($surname) ? null : (string) $surname;
-    ;
+  }
+
+  /**
+   * @return mixed[]
+   */
+  public function getData() {
+    return [
+      'firstname' => $this->getFirstname(),
+      'surname' => $this->getSurname(),
+    ];
   }
 
 }

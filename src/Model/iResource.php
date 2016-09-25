@@ -10,4 +10,19 @@ interface iResource {
    * @return int|null
    */
   public function getIdentifier();
+
+  /**
+   * @param boolean $isEmptyObject
+   */
+  public function setEmptyObject($isEmptyObject);
+
+  /**
+   * @return boolean
+   */
+  public function isEmptyObject();
+
+  /**
+   * @return mixed[]
+   */
+  public function getData();
 }
