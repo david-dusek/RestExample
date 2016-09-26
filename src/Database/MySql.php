@@ -37,7 +37,6 @@ class MySql implements \RestExample\Database\iConnection {
   /**
    * @param string $resourceName
    * @param int $identifier
-   * @param mixed[] $data
    */
   public function update($resourceName, $identifier, array $data) {
     $tableName = $this->resourceNameToTableName($resourceName);

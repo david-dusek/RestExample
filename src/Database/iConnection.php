@@ -14,7 +14,6 @@ interface iConnection {
   /**
    * @param string $resourceName
    * @param int $identifier
-   * @param mixed[] $data
    */
   public function update($resourceName, $identifier, array $data);
 
