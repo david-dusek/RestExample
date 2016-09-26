@@ -17,35 +17,60 @@ class UserManager implements \RestExample\Model\iCrud {
   }
 
   /**
+   * @return string
+   */
+  private function getResourceName() {
+    return 'user';
+  }
+
+  /**
    * @param \RestExample\Model\iResource $resource
-   * @return \RestExample\Model\iResource
    */
   public function create(\RestExample\Model\iResource $resource) {
-
+    $this->checkResourceType($resource);
+    $identifier = $this->databaseConnection->insert($this->getResourceName(), $resource->getData());
+    $resource->setIdentifer($identifier);
   }
 
   /**
    * @param \RestExample\Model\iResource $resource
-   * @return \RestExample\Model\iResource
    */
   public function read(\RestExample\Model\iResource $resource) {
-
+    $this->checkResourceType($resource);
+    $data = $this->databaseConnection->find($this->getResourceName(), $resource->getIdentifier());
+    if ($data === false) {
+      $resource->setEmptyObject(true);
+    } else {
+      $resource->setFirstname(isset($data['firstname']) ? $data['firstname'] : null);
+      $resource->setSurname(isset($data['surname']) ? $data['surname'] : null);
+    }
   }
 
   /**
    * @param \RestExample\Model\iResource $resource
-   * @return \RestExample\Model\iResource
    */
   public function update(\RestExample\Model\iResource $resource) {
-
+    $this->checkResourceType($resource);
+    $this->databaseConnection->update($this->getResourceName(), $resource->getIdentifier(), $resource->getData());
   }
 
   /**
    * @param \RestExample\Model\iResource $resource
-   * @return boolean
    */
   public function delete(\RestExample\Model\iResource $resource) {
-    
+    $this->checkResourceType($resource);
+    $this->databaseConnection->delete($this->getResourceName(), $resource->getIdentifier());
+  }
+
+  /**
+   * @param \RestExample\Model\iResource $resource
+   * @throws \RestExample\Model\Exception\InvalidResourceType
+   */
+  private function checkResourceType(\RestExample\Model\iResource $resource) {
+    if (!($resource instanceof \RestExample\Model\Resource\iUser)) {
+      throw new \RestExample\Model\Exception\InvalidResourceType('Expecting resource of type '
+      . \RestExample\Model\Resource\iUser::class . ', ' . \get_class($resource) . ' given');
+    }
   }
 
 }
