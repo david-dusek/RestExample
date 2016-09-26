@@ -38,4 +38,18 @@ class UserTest extends \PHPUnit_Framework_TestCase {
     $user->setIdentifer(2);
   }
 
+  /**
+   * @test
+   */
+  public function getData() {
+    $firstname = 'test';
+    $surname = 'david';
+
+    $user = new \RestExample\Model\Resource\User();
+    $user->setFirstname($firstname);
+    $user->setSurname($surname);
+
+    $this->assertEquals(['firstname' => $firstname, 'surname' => $surname], $user->getData());
+  }
+
 }
