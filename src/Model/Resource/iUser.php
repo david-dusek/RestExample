@@ -15,12 +15,6 @@ interface iUser extends \RestExample\Model\iResource {
   public function getSurname();
 
   /**
-   * @param int $identifier
-   * @throws \RestExample\Model\Exception\Immutable
-   */
-  public function setIdentifer($identifier);
-
-  /**
    * @param string $firstname
    */
   public function setFirstname($firstname);
