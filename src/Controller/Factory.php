@@ -10,10 +10,18 @@ class Factory {
   private $databaseConnection;
 
   /**
-   * @param \RestExample\Database\iConnection $databaseConnection
+   * @var \RestExample\Server\Response\Factory
    */
-  public function __construct(\RestExample\Database\iConnection $databaseConnection) {
+  private $responseFactory;
+
+  /**
+   * @param \RestExample\Database\iConnection $databaseConnection
+   * @param \RestExample\Server\Response\Factory $responseFactory
+   */
+  public function __construct(\RestExample\Database\iConnection $databaseConnection,
+                              \RestExample\Server\Response\Factory $responseFactory) {
     $this->databaseConnection = $databaseConnection;
+    $this->responseFactory = $responseFactory;
   }
 
   /**
@@ -24,12 +32,12 @@ class Factory {
    */
   public function createByResourceIdentifier($resourceIdentifier) {
     return new \RestExample\Controller($this->createResourceManagerByResourceIdentifier($resourceIdentifier),
-            $this->createDataMapperByResourceIdentifier($resourceIdentifier));
+            $this->createDataMapperByResourceIdentifier($resourceIdentifier), $this->responseFactory);
   }
 
   /**
    * @todo Detach to Resource Manager factory and inject it in constructor.
-   * 
+   *
    * @param string $resourceIdentifier
    * @return \RestExample\Controller\sourceManagerClass
    * @throws \RestExample\Model\Exception\ResourceManagerNotImplemented

@@ -55,7 +55,8 @@ class CotrollerTest extends \PHPUnit_Framework_TestCase {
   public function processNotExistingMethodRequest() {
     $resourceManagerFake = $this->getMockBuilder(\RestExample\Model\iCrud::class)->getMock();
     $dataMapperFake = $this->getMockBuilder(\RestExample\Model\iMapper::class)->getMock();
-    $controller = new \RestExample\Controller($resourceManagerFake, $dataMapperFake);
+    $responseFactoryFake = $this->getMockBuilder(\RestExample\Server\Response\Factory::class)->getMock();
+    $controller = new \RestExample\Controller($resourceManagerFake, $dataMapperFake, $responseFactoryFake);
     $controller->processRequest($this->createRequestStub('FOO', 1, ''));
   }
 
@@ -79,7 +80,13 @@ class CotrollerTest extends \PHPUnit_Framework_TestCase {
             ->with($this->equalTo($resourceIdentifier), $this->equalTo($resourceRowData))
             ->willReturn($resourceStub);
 
-    return new \RestExample\Controller($resourceManagerMock, $dataMapperMock);
+    $responseFake = $this->getMockBuilder(\RestExample\Server\iResponse::class)->getMock();
+
+    $responseFactoryStub = $this->getMockBuilder(\RestExample\Server\Response\Factory::class)->getMock();
+    $responseFactoryStub->method('createResponse')
+            ->willReturn($responseFake);
+
+    return new \RestExample\Controller($resourceManagerMock, $dataMapperMock, $responseFactoryStub);
   }
 
   /**
