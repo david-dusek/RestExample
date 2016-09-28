@@ -30,6 +30,11 @@ interface iResponse {
   const CODE_NOT_FOUND = 404;
 
   /**
+   * Method Not Allowed
+   */
+  const CODE_METHOD_NOT_ALLOWED = 405;
+
+  /**
    * Internal Server Error
    */
   const CODE_SERVER_ERROR = 500;
@@ -42,9 +47,9 @@ interface iResponse {
   public function send();
 
   /**
-   * @param int $code \RestExample\Server\iResponse::CODE_*
+   * @param int $statusCode \RestExample\Server\iResponse::CODE_*
    */
-  public function setCode($code);
+  public function setStatusCode($statusCode);
 
   /**
    * @param string $contentType \RestExample\Server\iResponse::CONTENT_TYPE_*
@@ -52,7 +57,7 @@ interface iResponse {
   public function setContentType($contentType);
 
   /**
-   * @param string $data
+   * @param string $content
    */
-  public function setData($data);
+  public function setContent($content);
 }
