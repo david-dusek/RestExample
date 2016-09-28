@@ -15,11 +15,6 @@ interface iResponse {
   const CODE_CREATE_OK = 201;
 
   /**
-   * The resource was successfully deleted
-   */
-  const CODE_DELETE_OK = 204;
-
-  /**
    * Bad Request
    */
   const CODE_BAD_REQUEST = 400;

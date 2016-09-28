@@ -101,7 +101,7 @@ class Controller implements \RestExample\iController {
     }
     $this->resourceManager->delete($resource);
 
-    return $this->createResponseFromResource(\RestExample\Server\iResponse::CODE_DELETE_OK, $resource);
+    return $this->createResponseFromResource(\RestExample\Server\iResponse::CODE_OK, $resource);
   }
 
   /**

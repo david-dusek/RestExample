@@ -26,8 +26,6 @@ class User implements \RestExample\Model\iMapper {
    * @return string
    */
   public function resourceToData(\RestExample\Model\iResource $resource) {
-
-
     $values = [
       'identifier' => $resource->getIdentifier(),
       'firstname' => $resource->getFirstname(),
