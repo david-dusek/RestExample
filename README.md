@@ -93,3 +93,12 @@ Operace DELETE vrací data ve formátu:
 - URL: `<doména>/user/{identifier}` kde identifier je identifikátor uživatele
 - příklad: `curl -XDELETE http://rest-example.local/user/1`
 - návratový kód (úspěch): 200
+
+
+## TODO
+
+- komplexnější testy třídy Controller
+- testy třídy Application
+- testy třídy HTTP Response
+- detekce neexistujícího resource u metod PUT a DELETE
+- todo v kódu
