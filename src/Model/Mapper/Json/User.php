@@ -11,10 +11,9 @@ class User implements \RestExample\Model\iMapper {
    */
   public function dataToResource($identifier = null, $data = '') {
     $encodedData = \json_decode($data);
-    if (!($encodedData instanceof \stdClass)) {
+    if (!empty($data) && !($encodedData instanceof \stdClass)) {
       throw new \RestExample\Model\Exception\InvalidJson("Unable to decode JSON '$data'");
     }
-
     $user = new \RestExample\Model\Resource\User($identifier);
     $user->setFirstname(isset($encodedData->firstname) ? $encodedData->firstname : null);
     $user->setSurname(isset($encodedData->surname) ? $encodedData->surname : null);

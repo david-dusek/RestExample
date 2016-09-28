@@ -46,8 +46,10 @@ class Http implements \RestExample\Server\iResponse {
   }
 
   private function sendHeaders() {
+    \header('Date: ' . (new \DateTime())->format('D, d M Y H:i:s') . ' GMT', true, $this->statusCode);
+
     foreach ($this->headers as $name => $value) {
-      \header("$name: $value", false, $this->statusCode);
+      \header("$name: $value", true, $this->statusCode);
     }
   }
 

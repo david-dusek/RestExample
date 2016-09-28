@@ -159,7 +159,7 @@ class MySqlTest extends \PHPUnit_Framework_TestCase {
     $pdoMock = $this->getMockBuilder(\PDO::class)->disableOriginalConstructor()->getMock();
     $pdoMock->expects($this->once())
             ->method('prepare')
-            ->with($this->equalTo('DELETE test_resources WHERE id_test=?'))
+            ->with($this->equalTo('DELETE FROM test_resources WHERE id_test=?'))
             ->willReturn($pdoStatementMock);
 
     $connection = new \RestExample\Database\MySql($pdoMock);

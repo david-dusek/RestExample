@@ -26,26 +26,29 @@ class Factory {
 
   /**
    * @param string $resourceIdentifier
-   * @return \RestExample\iController
-   * @throws \RestExample\Model\Exception\ResourceManagerNotImplemented
-   * @throws \RestExample\Model\Exception\DataMapperNotImplemented
+   * @return \RestExample\iController|null
    */
-  public function createByResourceIdentifier($resourceIdentifier) {
-    return new \RestExample\Controller($this->createResourceManagerByResourceIdentifier($resourceIdentifier),
-            $this->createDataMapperByResourceIdentifier($resourceIdentifier), $this->responseFactory);
+  public function createByResourceName($resourceIdentifier) {
+    $resourceManager = $this->createResourceManagerByResourceIdentifier($resourceIdentifier);
+    $dataMapper = $this->createDataMapperByResourceIdentifier($resourceIdentifier);
+
+    if (\is_null($resourceManager) || \is_null($dataMapper)) {
+      return null;
+    }
+
+    return new \RestExample\Controller($resourceManager, $dataMapper, $this->responseFactory);
   }
 
   /**
    * @todo Detach to Resource Manager factory and inject it in constructor.
    *
    * @param string $resourceIdentifier
-   * @return \RestExample\Controller\sourceManagerClass
-   * @throws \RestExample\Model\Exception\ResourceManagerNotImplemented
+   * @return \RestExample\Controller\sourceManagerClass|null
    */
   private function createResourceManagerByResourceIdentifier($resourceIdentifier) {
     $resourceManagerClass = '\\RestExample\\Model\\Resource\\' . \ucfirst($resourceIdentifier) . 'Manager';
     if (!\class_exists($resourceManagerClass)) {
-      throw new \RestExample\Model\Exception\ResourceManagerNotImplemented("Resource manager for resource $resourceIdentifier not implemented.");
+      return null;
     }
 
     return new $resourceManagerClass($this->databaseConnection);
@@ -55,13 +58,12 @@ class Factory {
    * @todo Detach to Data Mapper factory and inject it in constructor.
    *
    * @param string $resourceIdentifier
-   * @return \RestExample\Controller\dataMapperClass
-   * @throws \RestExample\Model\Exception\DataMapperNotImplemented
+   * @return \RestExample\Controller\dataMapperClass|null
    */
   private function createDataMapperByResourceIdentifier($resourceIdentifier) {
     $dataMapperClass = '\\RestExample\\Model\\Mapper\\Json\\' . \ucfirst($resourceIdentifier);
     if (!\class_exists($dataMapperClass)) {
-      throw new \RestExample\Model\Exception\DataMapperNotImplemented("Data mapper for resource $resourceIdentifier not implemented.");
+      return null;
     }
 
     return new $dataMapperClass();

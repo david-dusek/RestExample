@@ -34,7 +34,7 @@ class Http implements \RestExample\Server\iRequest {
    * @return \RestExample\Server\Request
    */
   public static function createFromGlobals() {
-    return new \RestExample\Server\Request(\filter_input(\INPUT_SERVER, 'REQUEST_URI'),
+    return new \RestExample\Server\Request\Http(\filter_input(\INPUT_SERVER, 'REQUEST_URI'),
             \filter_input(\INPUT_SERVER, 'REQUEST_METHOD'), \file_get_contents('php://input'));
   }
 

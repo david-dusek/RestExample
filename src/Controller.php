@@ -35,15 +35,14 @@ class Controller implements \RestExample\iController {
    * @return \RestExample\Server\iResponse
    */
   public function processRequest(\RestExample\Server\iRequest $request) {
-    $request->getMethod();
-    $resource = $this->dataMapper->dataToResource($request->getResourceIdentifier(), $request->getRawData());
-
-    $methodName = 'process' . \ucfirst(\strtolower($request->getMethod()));
-    if (!\method_exists($this, $methodName)) {
-      throw new \RestExample\Controller\Exception\UnsupportedMethod("Method {$request->getMethod()} is not supported.");
-    }
-
     try {
+      $resource = $this->dataMapper->dataToResource($request->getResourceIdentifier(), $request->getRawData());
+
+      $methodName = 'process' . \ucfirst(\strtolower($request->getMethod()));
+      if (!\method_exists($this, $methodName)) {
+        return $this->createResponse(\RestExample\Server\iResponse::CODE_METHOD_NOT_ALLOWED);
+      }
+
       return $this->{$methodName}($resource);
     } catch (\RestExample\Exception $restExampleException) {
       return $this->createResponse(\RestExample\Server\iResponse::CODE_SERVER_ERROR,
@@ -59,6 +58,9 @@ class Controller implements \RestExample\iController {
    * @return \RestExample\Server\iResponse
    */
   private function processGet(\RestExample\Model\iResource $resource) {
+    if (\is_null($resource->getIdentifier())) {
+      $this->createResponse(\RestExample\Server\iResponse::CODE_NOT_FOUND);
+    }
     $this->resourceManager->read($resource);
     if ($resource->isEmptyObject()) {
       return $this->createResponse(\RestExample\Server\iResponse::CODE_NOT_FOUND);
@@ -81,6 +83,9 @@ class Controller implements \RestExample\iController {
    * @return \RestExample\Server\iResponse
    */
   private function processPut(\RestExample\Model\iResource $resource) {
+    if (\is_null($resource->getIdentifier())) {
+      $this->createResponse(\RestExample\Server\iResponse::CODE_NOT_FOUND);
+    }
     $this->resourceManager->update($resource);
 
     return $this->createResponseFromResource(\RestExample\Server\iResponse::CODE_OK, $resource);
@@ -91,6 +96,9 @@ class Controller implements \RestExample\iController {
    * @return \RestExample\Server\iResponse
    */
   private function processDelete(\RestExample\Model\iResource $resource) {
+    if (\is_null($resource->getIdentifier())) {
+      $this->createResponse(\RestExample\Server\iResponse::CODE_NOT_FOUND);
+    }
     $this->resourceManager->delete($resource);
 
     return $this->createResponseFromResource(\RestExample\Server\iResponse::CODE_DELETE_OK, $resource);
@@ -114,24 +122,24 @@ class Controller implements \RestExample\iController {
    */
   private function createResponseFromResource($code, \RestExample\Model\iResource $resource = null) {
     if (\is_null($resource)) {
-      $data = null;
+      $content = null;
     } else {
-      $data = $this->dataMapper->resourceToData($resource);
+      $content = $this->dataMapper->resourceToData($resource);
     }
 
-    return $this->createResponse($code, $data);
+    return $this->createResponse($code, $content);
   }
 
   /**
    * @param int $code
-   * @param string $data JSON
+   * @param string $content JSON
    * @return \RestExample\Server\iResponse
    */
-  private function createResponse($code, $data = null) {
+  private function createResponse($code, $content = null) {
     $response = $this->responseFactory->createResponse();
-    $response->setCode($code);
+    $response->setStatusCode($code);
     $response->setContentType(\RestExample\Server\iResponse::CONTENT_TYPE_JSON);
-    $response->setData($data);
+    $response->setContent($content);
 
     return $response;
   }

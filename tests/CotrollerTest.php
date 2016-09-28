@@ -49,18 +49,6 @@ class CotrollerTest extends \PHPUnit_Framework_TestCase {
   }
 
   /**
-   * @test
-   * @expectedException \RestExample\Controller\Exception\UnsupportedMethod
-   */
-  public function processNotExistingMethodRequest() {
-    $resourceManagerFake = $this->getMockBuilder(\RestExample\Model\iCrud::class)->getMock();
-    $dataMapperFake = $this->getMockBuilder(\RestExample\Model\iMapper::class)->getMock();
-    $responseFactoryFake = $this->getMockBuilder(\RestExample\Server\Response\Factory::class)->getMock();
-    $controller = new \RestExample\Controller($resourceManagerFake, $dataMapperFake, $responseFactoryFake);
-    $controller->processRequest($this->createRequestStub('FOO', 1, ''));
-  }
-
-  /**
    * @param int $resourceIdentifier
    * @param string $resourceRowData
    * @param string $resourceManagerRequiredMethodName

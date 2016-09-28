@@ -62,12 +62,12 @@ class MySql implements \RestExample\Database\iConnection {
     $tableName = $this->resourceNameToTableName($resourceName);
     $identifierColumnName = $this->resourceNameToColumnName($resourceName);
 
-    $updateStatement = $this->pdo->prepare("SELECT * FROM $tableName WHERE $identifierColumnName=?");
-    if ($updateStatement->execute([$identifier]) === false) {
+    $findStatement = $this->pdo->prepare("SELECT * FROM $tableName WHERE $identifierColumnName=?");
+    if ($findStatement->execute([$identifier]) === false) {
       throw new \RestExample\Database\Exception\FindQueryFail("Search $resourceName with identifier $identifier failed");
     }
 
-    return $updateStatement->fetch(\pdo::FETCH_ASSOC);
+    return $findStatement->fetch(\pdo::FETCH_ASSOC);
   }
 
   /**
@@ -78,8 +78,8 @@ class MySql implements \RestExample\Database\iConnection {
     $tableName = $this->resourceNameToTableName($resourceName);
     $identifierColumnName = $this->resourceNameToColumnName($resourceName);
 
-    $updateStatement = $this->pdo->prepare("DELETE $tableName WHERE $identifierColumnName=?");
-    if ($updateStatement->execute([$identifier]) === false) {
+    $deleteStatement = $this->pdo->prepare("DELETE FROM $tableName WHERE $identifierColumnName=?");
+    if ($deleteStatement->execute([$identifier]) === false) {
       throw new \RestExample\Database\Exception\DeleteQueryFail("Delete $resourceName with identifier $identifier failed");
     }
   }
